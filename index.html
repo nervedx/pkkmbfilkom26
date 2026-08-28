@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PKKMB 2026</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="topbar-brand" style="font-weight: 800; font-size: 19px; color: var(--accent);">PKKMB 2026</div>
+  <div style="display:flex;gap:8px">
+    <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">
+      <svg id="icoSun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="icoMoon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="hero">
+    <div class="hero-icon">👋</div>
+    <h1>Halo Mahasiswa Baru!</h1>
+    <p>Silakan pilih Twibbon yang kamu butuhkan ya!.</p>
+  </div>
+
+  <div class="mode-toggle">
+    <div class="mode-bg" id="modeBg"></div>
+    <button class="mode-tab active" id="tabFIK">Twibbon Fakultas</button>
+    <button class="mode-tab" id="tabTI">Twibbon TI</button>
+    <button class="mode-tab" id="tabSI">Twibbon SI</button>
+    <button class="mode-tab" id="tabVideo">Twibbon Video</button>
+  </div>
+
+  <!-- VIDEO INSTRUCTIONS PAGE -->
+  <div id="videoSection" style="display: none; background: var(--surface); padding: 24px; border-radius: var(--r-xl); border: 1px solid var(--border); box-shadow: var(--sh-md); margin-bottom: 24px;">
+    <h2 style="margin-bottom: 16px; font-weight: 800; color: var(--accent); font-size: 20px;">Panduan Video Perkenalan</h2>
+    <p style="color: var(--text-2); line-height: 1.6; margin-bottom: 16px;">Twibbon format video tidak dapat diedit secara otomatis melalui website ini. Silakan ikuti langkah berikut untuk mengeditnya menggunakan perangkat Anda:</p>
+    <ol style="color: var(--text-2); line-height: 1.8; padding-left: 20px; margin-bottom: 20px;">
+      <li>Unduh file mentahan (<i>template</i>) Twibbon Video yang telah disediakan panitia.</li>
+      <li>Buka aplikasi edit video pilihan Anda (contoh: <b>CapCut, VN, KineMaster, atau Premiere Pro</b>).</li>
+      <li>Masukkan video perkenalan diri Anda sebagai <i>layer</i> utama (video dasar).</li>
+      <li>Tambahkan <i>template</i> Twibbon Video sebagai <i>Overlay</i> (lapisan di atas video Anda).</li>
+      <li>Gunakan fitur <b>Chroma Key (Kunci Kromatik)</b> atau <b>Blend Mode (Campuran)</b> pada aplikasi tersebut untuk menghilangkan warna latar (hijau/hitam) pada twibbon.</li>
+      <li>Sesuaikan letak video Anda agar pas berada di dalam bingkai, lalu <i>Export/Simpan</i> hasilnya.</li>
+    </ol>
+    <button class="report-cta" id="downloadVideoBtn" style="margin-top: 16px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Unduh Template Video
+    </button>
+  </div>
+
+  <!-- EDITOR PAGE -->
+  <div id="editorSection">
+    
+    <!-- CANVAS AREA (MUNCUL DI ATAS) -->
+    <div class="canvas-container" id="editorArea">
+      <div class="form-group" style="margin-bottom: 0;">
+        <label class="form-label" style="text-align: center; margin-bottom: 12px;">Preview Twibbon</label>
+        <div class="canvas-wrapper" id="canvasWrapper">
+          <div id="loadingFrame" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--text-2); font-weight: bold; pointer-events: none;">Memuat Bingkai...</div>
+          <canvas id="twibbonCanvas" width="1080" height="1080"></canvas>
+        </div>
+        
+        <div class="controls" id="photoControls" style="margin-top: 20px; display: none;">
+          <label class="form-label">Atur Ukuran Foto: <span id="scaleValue">100%</span></label>
+          <input type="range" id="scaleSlider" min="0.1" max="3" step="0.01" value="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- UPLOAD FOTO (DI BAWAH) -->
+    <div class="search-box">
+      <div class="form-group" style="margin-bottom: 0;">
+        <label class="form-label">Upload Foto Kamu</label>
+        <div class="upload-zone" id="photoUploadZone">
+          <input type="file" id="photoUpload" accept="image/png, image/jpeg">
+          <div class="upload-zone-icon">📸</div>
+          <div class="upload-zone-title">Pilih File Foto</div>
+          <div class="upload-zone-sub">Klik atau drop file gambar di sini</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOMBOL UNDUH -->
+    <button class="report-cta" id="downloadBtn" style="margin-top: 16px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Unduh Twibbon
+    </button>
+  </div>
+
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
