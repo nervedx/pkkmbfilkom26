@@ -14,7 +14,7 @@
   --r-sm:12px;--r-md:16px;--r-lg:20px;--r-xl:24px;--r-pill:980px;
   --font:"Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-d:"Helvetica Neue", Helvetica, Arial, sans-serif;
-  --ease:200ms ease-out;--ease-slow:380ms ease-out;
+  --ease:200ms ease-out;--ease-slow:250ms ease-out;
 }
 [data-theme="dark"]{
   --bg:#000;--surface:#1C1C1E;--surface2:#2C2C2E;--surface3:#3A3A3C;
@@ -34,7 +34,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text-1);-webkit-fo
 .icon-btn{width:36px;height:36px;border-radius:var(--r-pill);background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-2);transition:background var(--ease),color var(--ease),transform var(--ease)}
 .icon-btn:hover{background:var(--surface3);color:var(--text-1)}
 .icon-btn:active{transform:scale(0.90)}
-.icon-btn svg{width:17px;height:17px}
+.icon-btn svg{width:17px;height:17px; position:absolute; transition: transform 0.4s var(--spring), opacity 0.3s ease;}
+#icoMoon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+[data-theme="dark"] #icoSun { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+[data-theme="dark"] #icoMoon { opacity: 1; transform: rotate(0) scale(1); }
+#themeBtn { position: relative; overflow: hidden; }
 
 .page{max-width:640px;margin:0 auto;padding:28px 16px 100px}
 
