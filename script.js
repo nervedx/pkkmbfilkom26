@@ -243,12 +243,12 @@ canvas.addEventListener('mousedown', (e) => {
 
 canvas.addEventListener('mousemove', (e) => {
   if(isDragging && photoImg) {
-    // Canvas is scaled down by CSS, so we need to adjust mouse delta
     const rect = canvas.getBoundingClientRect();
     const scaleFactorX = canvas.width / rect.width;
     const scaleFactorY = canvas.height / rect.height;
     
-    const dx = (e.offsetX - startX) * scaleFactorX;
+    // Multiply dx by photoMirror so drag direction matches the flipped photo
+    const dx = (e.offsetX - startX) * scaleFactorX * photoMirror;
     const dy = (e.offsetY - startY) * scaleFactorY;
     
     photoX += dx;
@@ -281,7 +281,8 @@ canvas.addEventListener('touchmove', (e) => {
     const scaleFactorX = canvas.width / rect.width;
     const scaleFactorY = canvas.height / rect.height;
     
-    const dx = (currentX - startX) * scaleFactorX;
+    // Multiply dx by photoMirror so drag direction matches the flipped photo
+    const dx = (currentX - startX) * scaleFactorX * photoMirror;
     const dy = (currentY - startY) * scaleFactorY;
     
     photoX += dx;
@@ -291,7 +292,7 @@ canvas.addEventListener('touchmove', (e) => {
     startY = currentY;
     
     draw();
-    e.preventDefault(); // Prevent scrolling while dragging
+    e.preventDefault();
 }, {passive: false});
 
 canvas.addEventListener('touchend', () => isDragging = false);
