@@ -7,14 +7,6 @@ themeBtn.addEventListener('click', () => {
   const currentTheme = document.documentElement.getAttribute('data-theme');
   const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', newTheme);
-  
-  if(newTheme === 'dark'){
-    icoSun.style.display = 'none';
-    icoMoon.style.display = 'block';
-  } else {
-    icoSun.style.display = 'block';
-    icoMoon.style.display = 'none';
-  }
 });
 
 // UI Elements
