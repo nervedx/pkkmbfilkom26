@@ -34,6 +34,8 @@ let isPlaceholder = true;
 let photoX = 0;
 let photoY = 0;
 let photoScale = 1;
+let photoRotation = 0; // degrees
+let photoMirror = 1; // 1 = normal, -1 = mirrored
 const scaleSlider = document.getElementById('scaleSlider');
 const scaleValue = document.getElementById('scaleValue');
 
@@ -43,6 +45,20 @@ let startX = 0;
 let startY = 0;
 
 const photoUpload = document.getElementById('photoUpload');
+
+// Rotate buttons
+document.getElementById('rotateLeftBtn').addEventListener('click', () => {
+  photoRotation -= 90;
+  draw();
+});
+document.getElementById('rotateRightBtn').addEventListener('click', () => {
+  photoRotation += 90;
+  draw();
+});
+document.getElementById('mirrorBtn').addEventListener('click', () => {
+  photoMirror *= -1; // toggle between 1 and -1
+  draw();
+});
 
 // Frame Paths
 const frames = {
@@ -161,6 +177,7 @@ photoUpload.addEventListener('change', (e) => {
       img.onload = () => {
         photoImg = img;
         isPlaceholder = false;
+        photoRotation = 0; // reset rotation
         photoControls.style.display = 'block';
         centerPhoto();
         draw();
@@ -198,6 +215,11 @@ function draw() {
   // Draw photo
   if(photoImg){
     ctx.save();
+    // Rotate and mirror around the center of the canvas
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(photoRotation * Math.PI / 180);
+    ctx.scale(photoMirror, 1); // mirror horizontally if -1
+    ctx.translate(-canvas.width / 2, -canvas.height / 2);
     ctx.translate(photoX, photoY);
     ctx.scale(photoScale, photoScale);
     ctx.drawImage(photoImg, 0, 0);
